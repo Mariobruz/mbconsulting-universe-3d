@@ -95,6 +95,7 @@ window.I18N = {
   /* testi usati dal codice */
   'js.close': { it: 'Chiudi scheda', en: 'Close project' },
   'js.talk': { it: 'Parliamo di questo progetto', en: 'Let’s talk about this project' },
+  'js.swipe': { it: 'Scorri a destra o a sinistra per cambiare progetto', en: 'Swipe left or right to change project' },
   'js.mail': { it: 'Informazioni su ', en: 'Information about ' },
   'js.open': { it: 'Apri', en: 'Open' },
   'js.music': { it: 'Musica di sottofondo', en: 'Background music' },

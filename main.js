@@ -378,10 +378,51 @@ function openProject(i) {
   cta.querySelector('span').textContent = t('js.talk');
   document.documentElement.style.overflow = 'hidden';
   document.documentElement.classList.add('modal-open');
-  modal.showModal();
-  modal.dataset.shownAt = performance.now();
+  if (!modal.open) { modal.showModal(); modal.dataset.shownAt = performance.now(); }
+  modal.dataset.index = i;
   modal.scrollTop = 0;
 }
+
+/* =========================================================
+   SWIPE (cellulare): destra/sinistra per cambiare progetto
+   ========================================================= */
+function onSwipe(el, handler, ignoreSel) {
+  let s = null;
+  el.addEventListener('touchstart', (e) => {
+    const t = e.touches.length === 1 ? e.touches[0] : null;
+    s = t && !(ignoreSel && e.target.closest(ignoreSel)) ? { x: t.clientX, y: t.clientY, time: performance.now() } : null;
+  }, { passive: true });
+  el.addEventListener('touchend', (e) => {
+    const st = s; s = null;
+    const t = e.changedTouches[0];
+    if (!st || !t) return;
+    const dx = t.clientX - st.x, dy = t.clientY - st.y;
+    if (Math.abs(dx) < 45 || Math.abs(dx) < Math.abs(dy) * 1.4 || performance.now() - st.time > 900) return;
+    handler(dx < 0 ? 1 : -1);
+  }, { passive: true });
+  el.addEventListener('touchcancel', () => { s = null; }, { passive: true });
+}
+/* carosello: la card successiva/precedente */
+let swipeSlot = -1, swipeSlotAt = 0;
+onSwipe($('#universo'), (dir) => {
+  if (modal.open || ringPresence < 0.5 || !visibleList.length) return;
+  const base = performance.now() - swipeSlotAt < 900 ? swipeSlot : focusSlot;   // swipe ravvicinati: si somma
+  const s = clamp(base + dir, 0, visibleList.length - 1);
+  swipeSlot = s; swipeSlotAt = performance.now();
+  scrollToY(slotScrollY(s) + 1);
+}, '.filters,.project-index');
+/* scheda aperta: progetto successivo/precedente */
+onSwipe(modal, (dir) => {
+  const cur = visibleList.indexOf(+modal.dataset.index);
+  const list = cur >= 0 ? visibleList : projects.map((p, i) => i);
+  const pos = cur >= 0 ? cur : +modal.dataset.index;
+  const next = pos + dir;
+  if (next < 0 || next >= list.length) return;
+  openProject(list[next]);
+  modal.classList.remove('slide-l', 'slide-r'); void modal.offsetWidth;
+  modal.classList.add(dir > 0 ? 'slide-l' : 'slide-r');
+  if (visibleList.includes(list[next])) goToProject(list[next]);
+}, '#detail-cta,#close');
 $('#close').addEventListener('click', () => modal.close());
 modal.addEventListener('click', (e) => { if (e.target === modal && performance.now() - (+modal.dataset.shownAt || 0) > 450) modal.close(); });
 modal.addEventListener('close', () => { document.documentElement.style.overflow = ''; document.documentElement.classList.remove('modal-open'); lastFocus?.focus?.(); });
