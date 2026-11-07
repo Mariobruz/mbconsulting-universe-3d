@@ -682,7 +682,7 @@ function pauseMusicForVideo() { if (!music.paused) { music.pause(); musicWasOnBe
 function resumeMusicAfterVideo() { if (musicWasOnBeforeVideo) { musicWasOnBeforeVideo = false; music.play().catch(() => {}); } }
 function embedYouTube(poster) {
   const f = document.createElement('iframe');
-  f.src = `https://www.youtube-nocookie.com/embed/${YT_ID}?autoplay=1&rel=0`;
+  f.src = `https://www.youtube-nocookie.com/embed/${YT_ID}?autoplay=1&rel=0&enablejsapi=1&origin=${encodeURIComponent(location.origin)}`;
   f.title = 'Il Tesoro Perduto di Soverato — YouTube';
   f.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';
   f.referrerPolicy = 'strict-origin-when-cross-origin';
@@ -690,7 +690,21 @@ function embedYouTube(poster) {
   poster.closest('.video-frame').classList.add('playing');
   poster.replaceWith(f);
   pauseMusicForVideo();
+  // ascolta lo stato del lettore YouTube: in pausa o finito → la musica di sottofondo riparte
+  f.addEventListener('load', () => {
+    const send = (o) => f.contentWindow && f.contentWindow.postMessage(JSON.stringify(o), '*');
+    send({ event: 'listening', id: 'mbyt', channel: 'widget' });
+    send({ event: 'command', func: 'addEventListener', args: ['onStateChange'], id: 'mbyt', channel: 'widget' });
+  });
 }
+addEventListener('message', (e) => {
+  if (!/youtube(-nocookie)?\.com$/.test(new URL(e.origin || 'http://x').hostname)) return;
+  let msg; try { msg = typeof e.data === 'string' ? JSON.parse(e.data) : e.data; } catch (err) { return; }
+  if (!msg) return;
+  const state = msg.event === 'onStateChange' ? msg.info : (msg.event === 'infoDelivery' && msg.info ? msg.info.playerState : undefined);
+  if (state === 1) pauseMusicForVideo();                 // in riproduzione
+  else if (state === 2 || state === 0) resumeMusicAfterVideo();   // in pausa o finito
+});
 $('#video-poster').addEventListener('click', function () {
   const poster = this;
   const v = document.createElement('video');
