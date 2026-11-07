@@ -82,7 +82,7 @@ window.I18N = {
   'cf.t.project': { it: 'Informazioni su: ', en: 'About: ' },
   'cf.err.name': { it: 'Scrivi il tuo nome.', en: 'Please enter your name.' },
   'cf.err.email': { it: 'Controlla l’indirizzo email.', en: 'Please check your email address.' },
-  'cf.err.msg': { it: 'Il messaggio è troppo breve.', en: 'Your message is too short.' },
+  'cf.err.msg': { it: 'Scrivi un messaggio.', en: 'Please write a message.' },
   'cf.err.privacy': { it: 'Serve la presa visione dell’informativa privacy.', en: 'Please confirm you have read the privacy notice.' },
   'cf.sending': { it: 'Invio in corso…', en: 'Sending…' },
   'cf.ok': { it: 'Grazie! Messaggio inviato: ti risponderemo presto.', en: 'Thank you! Message sent: we will reply soon.' },

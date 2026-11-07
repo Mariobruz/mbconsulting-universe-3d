@@ -1269,6 +1269,10 @@ contactDlg.addEventListener('click', (e) => { if (e.target === contactDlg && per
 contactDlg.addEventListener('close', () => { document.documentElement.style.overflow = ''; document.documentElement.classList.remove('modal-open'); });
 $('#detail-cta').addEventListener('click', (e) => { e.preventDefault(); const name = e.currentTarget.dataset.project; modal.close(); setTimeout(() => openContact(name), 250); });
 $('#closing-cta').addEventListener('click', (e) => { e.preventDefault(); e.stopImmediatePropagation(); openContact(); });
+/* appena si corregge un campo, l'avviso di errore sparisce */
+form.addEventListener('input', (e) => {
+  if (e.target.hasAttribute && e.target.hasAttribute('aria-invalid')) { e.target.removeAttribute('aria-invalid'); setStatus(''); }
+});
 form.addEventListener('submit', async (e) => {
   e.preventDefault();
   const fd = new FormData(form);
@@ -1287,7 +1291,7 @@ form.addEventListener('submit', async (e) => {
   const checks = [
     [!data.nome, 'nome', 'cf.err.name'],
     [!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(data.email), 'email', 'cf.err.email'],
-    [data.messaggio.length < 10, 'messaggio', 'cf.err.msg'],
+    [!data.messaggio, 'messaggio', 'cf.err.msg'],
     [!fd.get('privacy'), 'privacy', 'cf.err.privacy']
   ];
   const bad = checks.find(c => c[0]);
