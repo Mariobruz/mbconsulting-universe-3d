@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="MB Consulting. Idee che diventano applicazioni, piattaforme e nuove possibilità. Esplora il nostro universo digitale in 3D.">
+<meta name="theme-color" content="#05080c">
+<meta name="robots" content="index, follow, noai, noimageai">
+<meta name="tdm-reservation" content="1">
+<meta name="tdm-policy" content="/.well-known/tdmrep.json">
+<title>MB Consulting — Un universo di possibilità</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="fonts/fonts.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="is-loading">
+
+<!-- ============ LOADER ============ -->
+<div id="loader" role="dialog" aria-modal="true" aria-labelledby="loader-title">
+  <div class="loader-core">
+    <div class="loader-mark" aria-hidden="true">mb<span>°</span></div>
+    <p id="loader-title" class="loader-title" data-i18n="loader.title">Preparazione dell’universo</p>
+    <div class="loader-count"><span id="loader-pct">000</span><small>%</small></div>
+    <div class="loader-bar"><i id="loader-bar"></i></div>
+    <div class="loader-enter" id="loader-enter" hidden>
+      <button type="button" class="enter-btn" data-enter="sound"><span data-i18n="loader.sound">Entra con il suono</span><b>♪</b></button>
+      <button type="button" class="enter-btn ghost" data-enter="silent"><span data-i18n="loader.silent">Entra in silenzio</span></button>
+    </div>
+  </div>
+  <p class="loader-foot" data-i18n="loader.foot">Esperienza 3D interattiva · consigliate le cuffie</p>
+</div>
+
+<canvas id="webgl" aria-hidden="true"></canvas>
+<div class="vignette" aria-hidden="true"></div>
+<div class="grain" aria-hidden="true"></div>
+
+<div id="cursor" aria-hidden="true"><span class="c-dot"></span><span class="c-ring"><em id="cursor-label"></em></span></div>
+
+<!-- ============ HEADER ============ -->
+<header class="site-header">
+  <a class="brand" href="#home" aria-label="MB Consulting home"><b>mb<span>°</span></b><small>CONSULTING<br>DIGITAL STUDIO</small></a>
+  <nav aria-label="Principale">
+    <div class="languages" role="group" aria-label="Lingua / Language">
+      <button type="button" data-lang="it" aria-pressed="true">IT</button><span>/</span><button type="button" data-lang="en" aria-pressed="false">EN</button>
+    </div>
+    <a href="#universo" data-i18n="nav.universe">L’universo</a>
+    <a href="#approccio" data-i18n="nav.approach">Il nostro approccio</a>
+    <a href="#contatti" class="nav-contact"><span data-i18n="nav.talk">Parliamone</span> <b>↗</b></a>
+  </nav>
+</header>
+
+<!-- side progress rail -->
+<aside class="rail" aria-hidden="true">
+  <ol>
+    <li data-rail="home"><span>00</span><em data-i18n="rail.home">Origine</em></li>
+    <li data-rail="universo"><span>01</span><em data-i18n="rail.universe">Universo</em></li>
+    <li data-rail="territorio"><span>02</span><em data-i18n="rail.territory">Territorio</em></li>
+    <li data-rail="approccio"><span>03</span><em data-i18n="rail.approach">Approccio</em></li>
+    <li data-rail="competenze"><span>04</span><em data-i18n="rail.skills">Competenze</em></li>
+    <li data-rail="contatti"><span>05</span><em data-i18n="rail.contact">Contatto</em></li>
+  </ol>
+  <div class="rail-line"><i id="rail-fill"></i></div>
+</aside>
+
+<main>
+  <!-- ============ 00 HERO ============ -->
+  <section id="home" class="hero" data-section>
+    <div class="hero-copy">
+      <p class="eyebrow"><i></i><span data-i18n="hero.eyebrow">Intelligenza, in forma digitale</span></p>
+      <h1 class="split" data-i18n-html="hero.title">Le idee aprono<br>nuovi <em>mondi.</em></h1>
+      <p class="intro" data-i18n-html="hero.intro">Creiamo applicazioni, piattaforme e soluzioni AI<br>che trasformano il modo di lavorare e vivere.</p>
+      <a class="round-link magnetic" href="#universo"><span data-i18n="hero.cta">Esplora il nostro universo</span><b>↘</b></a>
+    </div>
+    <div class="hero-hud" aria-hidden="true">
+      <span class="hud-tag">MB / DIGITAL ECOSYSTEM <b>01 — 15</b></span>
+      <span class="coords">38°41′ N · 16°33′ E<br><small>SOVERATO · CALABRIA</small></span>
+    </div>
+    <div class="hero-bottom">
+      <span data-i18n="hero.b1">Strategia umana. Possibilità digitali.</span>
+      <a href="#universo" class="scroll-cue"><i></i><span data-i18n="hero.b2">Scorri per entrare in orbita</span></a>
+      <span data-i18n="hero.b3">Italia · Connessi al futuro</span>
+    </div>
+  </section>
+
+  <!-- ============ 01 UNIVERSE (pinned orbit gallery) ============ -->
+  <section id="universo" class="universe" data-section>
+    <div class="pin">
+      <div class="uni-head">
+        <p class="eyebrow"><i></i><span data-i18n="uni.eyebrow">01 / Il nostro universo</span></p>
+        <h2 data-i18n-html="uni.title">Un’idea concreta.<br>Una nuova <em>possibilità.</em></h2>
+        <p class="uni-sub" data-i18n="uni.sub">Scorri per far ruotare l’orbita. Tocca un progetto per scoprirlo.</p>
+        <div class="filters" role="group" aria-label="Filtra i progetti">
+          <button type="button" class="active" data-filter="Tutti" aria-pressed="true"><span data-i18n="cat.all">Tutti</span> <sup id="count-all">15</sup></button>
+          <button type="button" data-filter="AI & Automazione" aria-pressed="false" data-i18n="cat.ai">AI & Automazione</button>
+          <button type="button" data-filter="Business" aria-pressed="false" data-i18n="cat.biz">Business</button>
+          <button type="button" data-filter="Esperienze" aria-pressed="false" data-i18n="cat.exp">Esperienze</button>
+          <button type="button" data-filter="Vita quotidiana" aria-pressed="false" data-i18n="cat.life">Vita quotidiana</button>
+        </div>
+      </div>
+
+      <ol id="project-index" class="project-index" aria-label="Elenco progetti"></ol>
+
+      <div class="focus-card" id="focus-card" aria-live="polite">
+        <div class="focus-meta"><span id="focus-cat"></span><span id="focus-num"></span></div>
+        <h3 id="focus-name"></h3>
+        <p id="focus-tag"></p>
+        <div class="focus-actions">
+          <button type="button" class="orbit-btn" id="orbit-prev" aria-label="Progetto precedente">←</button>
+          <button type="button" class="open-btn" id="focus-open"><span data-i18n="uni.open">Apri il progetto</span> <b>↗</b></button>
+          <button type="button" class="orbit-btn" id="orbit-next" aria-label="Progetto successivo">→</button>
+        </div>
+      </div>
+      <p id="empty" class="empty" hidden data-i18n="uni.empty">Nessun progetto in questa categoria.</p>
+    </div>
+  </section>
+
+  <!-- ============ 02 TERRITORY ============ -->
+  <section id="territorio" class="territory" data-section>
+    <div class="territory-copy reveal">
+      <p class="eyebrow"><i></i><span data-i18n="ter.eyebrow">02 / Valorizzare il territorio</span></p>
+      <h2 data-i18n-html="ter.title">Ogni luogo custodisce<br>una <em>storia.</em></h2>
+      <p data-i18n="ter.text">La tecnologia incontra l’identità dei luoghi. Creiamo contenuti digitali che raccontano il territorio, ne valorizzano il patrimonio e invitano a scoprirlo.</p>
+      <div class="film-title">
+        <span>SOVERATO · CALABRIA</span>
+        <h3 data-i18n="ter.film">Il Tesoro Perduto di Soverato</h3>
+        <p data-i18n="ter.filmsub">Un racconto per guardare Soverato con occhi nuovi.</p>
+      </div>
+    </div>
+    <div class="territory-video reveal">
+      <div class="video-frame">
+        <button type="button" class="video-poster" id="video-poster" aria-label="Riproduci il video Il Tesoro Perduto di Soverato">
+          <img src="assets/video-cover.webp" alt="" loading="lazy" width="1280" height="720">
+          <span class="play"><b>▶</b></span>
+        </button>
+      </div>
+      <a href="https://youtu.be/fTDawcAx7Dc" target="_blank" rel="noopener noreferrer" class="text-link" data-i18n="ter.yt">Guarda anche su YouTube ↗</a>
+    </div>
+  </section>
+
+  <!-- ============ 03 APPROACH (pinned fly-through) ============ -->
+  <section id="approccio" class="approach" data-section>
+    <div class="pin">
+      <div class="approach-head">
+        <p class="eyebrow"><i></i><span data-i18n="app.eyebrow">03 / Il nostro approccio</span></p>
+        <h2 data-i18n-html="app.title">La tecnologia evolve.<br>Il punto di partenza<br>resti <em>tu.</em></h2>
+        <p data-i18n="app.text">Partiamo da quello che serve davvero. Un processo da semplificare, un servizio da inventare, un’esperienza da migliorare. Poi diamo alla tua idea la forma digitale giusta.</p>
+      </div>
+      <ol class="steps">
+        <li data-step="0"><span>01</span><h3 data-i18n="app.s1">Ascoltare</h3><p data-i18n="app.s1t">Capire il contesto, le persone e l’obiettivo.</p></li>
+        <li data-step="1"><span>02</span><h3 data-i18n="app.s2">Progettare</h3><p data-i18n="app.s2t">Collegare intuizione, design e funzionalità.</p></li>
+        <li data-step="2"><span>03</span><h3 data-i18n="app.s3">Realizzare</h3><p data-i18n="app.s3t">Trasformare il progetto in uno strumento concreto.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- ============ 04 CREDENTIALS ============ -->
+  <section id="competenze" class="credentials" data-section aria-label="Badge e competenze">
+    <div class="pin cred-pin">
+    <div class="cred-copy">
+      <p class="eyebrow"><i></i><span data-i18n="cred.eyebrow">04 / Competenze certificate</span></p>
+      <h2 data-i18n-html="cred.title">Chi c’è dietro i <em>progetti.</em></h2>
+    </div>
+    <div class="cred-stage">
+      <figure class="cred-photo">
+        <img src="assets/foto-vintage.webp" alt="Dittico vintage con due ritratti" width="1500" height="1049" loading="lazy" decoding="async" data-i18n-alt="cred.photo">
+      </figure>
+      <svg class="cred-path" id="cred-path" aria-hidden="true"><ellipse class="glow"/><ellipse/></svg>
+      <ul class="cred-orbit" id="cred-orbit">
+        <li><button type="button" class="badge-btn"><img src="assets/badge-bocconi-ai-marketing.webp" alt="Bocconi · Artificial Intelligence (AI) and Marketing" loading="lazy"></button></li>
+        <li><button type="button" class="badge-btn"><img src="assets/badge-polimi-ai-education.webp" alt="Politecnico di Milano · Creating High-Quality Educational Content Using AI" loading="lazy"></button></li>
+        <li><button type="button" class="badge-btn"><img src="assets/badge-polimi-ai-law.webp" alt="Politecnico di Milano · Artificial Intelligence and Legal Issues" loading="lazy"></button></li>
+        <li><button type="button" class="badge-btn"><img src="assets/badge-gemini.png" alt="Google for Education · Docente certificato Gemini" loading="lazy"></button></li>
+        <li><button type="button" class="badge-btn"><img src="assets/badge-claude-code.png" alt="Anthropic · Sviluppo con Claude Code" loading="lazy"></button></li>
+        <li><button type="button" class="badge-btn"><img src="assets/badge-agenti-ia.png" alt="OpenAI Academy · Agenti IA e workflow" loading="lazy"></button></li>
+        <li><button type="button" class="badge-btn"><img src="assets/badge-ia-pmi.png" alt="PayPal · Anthropic · IA per le piccole imprese" loading="lazy"></button></li>
+      </ul>
+    </div>
+    <p class="cred-hint" data-i18n="cred.hint">Clicca un badge per ingrandirlo</p>
+    </div>
+  </section>
+
+  <!-- ============ 05 CLOSING (warp) ============ -->
+  <section id="contatti" class="closing" data-section>
+    <p class="eyebrow"><i></i><span data-i18n="end.eyebrow">05 / Il prossimo mondo</span></p>
+    <p class="closing-q" data-i18n="end.q">Hai un’idea che aspetta di prendere forma?</p>
+    <a class="closing-cta" href="#contact-form" id="closing-cta"><span data-i18n-html="end.cta">Facciamola<br><em>succedere.</em></span><b class="magnetic">↘</b></a>
+
+    <p class="planet-hint" id="planet-hint"><i></i><span data-i18n="cf.hint">Tocca il pianeta per scriverci</span></p>
+
+    <footer class="site-footer">
+      <div class="footer-identity"><a class="brand" href="#home"><b>mb<span>°</span></b><small>CONSULTING<br>DIGITAL STUDIO</small></a><p data-i18n="foot.div">Una divisione della MB Consulting di Mario Bruzzese</p></div>
+      <span>© <span id="year">2026</span> MB Consulting</span>
+      <a href="#home" data-i18n="foot.top">Torna in orbita ↑</a>
+      <p class="footer-legal">MB Consulting di Mario Bruzzese · <span data-i18n="foot.seat">Sede legale</span>: Reggio Calabria (RC) · <span data-i18n="foot.vat">P.IVA</span> 03504290796 · <a href="privacy.html" data-i18n="foot.privacy">Privacy</a> · <a class="js-mail" href="#" data-u="ofni" data-d="moc.ailatignitlusnocbm">info [at] mbconsultingitalia [dot] com</a></p>
+    </footer>
+  </section>
+</main>
+
+<!-- ============ PROJECT DIALOG ============ -->
+<dialog id="detail" aria-labelledby="detail-name">
+  <button type="button" id="close" aria-label="Chiudi scheda">✕</button>
+  <div class="detail-media"><img id="detail-img" alt=""></div>
+  <div class="detail-body">
+    <p id="detail-cat" class="eyebrow"></p>
+    <h2 id="detail-name"></h2>
+    <div id="detail-desc"></div>
+    <a id="detail-cta" class="round-link"><span></span><b>↗</b></a>
+  </div>
+</dialog>
+
+<!-- ============ BADGE INGRANDITO ============ -->
+<div id="badge-zoom" class="badge-zoom" hidden>
+  <figure><img id="badge-zoom-img" alt=""><figcaption id="badge-zoom-cap"></figcaption></figure>
+  <button type="button" id="badge-zoom-close" class="badge-zoom-close" aria-label="Chiudi">✕</button>
+</div>
+
+<!-- ============ MODULO DI CONTATTO (si apre cliccando il pianeta) ============ -->
+<dialog id="contact-dialog" class="contact-dialog" aria-labelledby="cf-title">
+  <button type="button" id="cf-close" class="cf-close" aria-label="Chiudi">✕</button>
+  <p class="eyebrow"><i></i><span data-i18n="end.eyebrow">05 / Il prossimo mondo</span></p>
+  <h2 id="cf-title" data-i18n-html="cf.title">Scrivici, <em>partiamo.</em></h2>
+    <form id="contact-form" class="contact-form" novalidate>
+      <p class="cf-intro" data-i18n="cf.intro">Raccontaci la tua idea: ti rispondiamo entro due giorni lavorativi.</p>
+      <div class="cf-grid">
+        <label class="cf-field"><span data-i18n="cf.name">Nome e cognome</span><input type="text" name="nome" id="cf-name" autocomplete="name" required maxlength="120"></label>
+        <label class="cf-field"><span data-i18n="cf.email">Email</span><input type="email" name="email" autocomplete="email" required maxlength="160" inputmode="email"></label>
+        <label class="cf-field"><span data-i18n="cf.phone">Telefono (facoltativo)</span><input type="tel" name="telefono" autocomplete="tel" maxlength="40" inputmode="tel"></label>
+        <label class="cf-field"><span data-i18n="cf.topic">Argomento</span><select name="argomento" id="cf-topic"></select></label>
+        <label class="cf-field cf-wide"><span data-i18n="cf.msg">Messaggio</span><textarea name="messaggio" rows="5" required minlength="10" maxlength="4000"></textarea></label>
+      </div>
+      <div class="cf-hp" aria-hidden="true"><label>Lascia vuoto <input type="text" name="sito_web" tabindex="-1" autocomplete="off"></label></div>
+      <label class="cf-consent"><input type="checkbox" name="privacy" required><span data-i18n-html="cf.consent">Ho letto l’<a href="privacy.html" target="_blank" rel="noopener">informativa privacy</a> e acconsento al trattamento dei miei dati per ricevere una risposta.</span></label>
+      <div class="cf-actions">
+        <button type="submit" class="open-btn cf-submit"><span data-i18n="cf.send">Invia messaggio</span> <b>↗</b></button>
+        <p class="cf-status" id="cf-status" role="status" aria-live="polite"></p>
+      </div>
+    </form>
+</dialog>
+
+<audio id="site-music" src="assets/attenti-a-quei-due.mp3" loop preload="none"></audio>
+<button id="music-toggle" class="music-toggle" type="button" aria-label="Musica di sottofondo" aria-pressed="false">
+  <span class="bars" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+</button>
+
+<noscript><style>#loader{display:none}body.is-loading{overflow:auto}</style></noscript>
+<script src="config.js"></script>
+<script src="protect.js"></script>
+<script src="vendor/three.global.js"></script>
+<script src="shaders.js"></script>
+<script src="projects-data.js"></script>
+<script src="thumbs-data.js"></script>
+<script src="photo-data.js"></script>
+<script src="i18n.js"></script>
+<script src="main.js"></script>
+</body>
+</html>
