@@ -1201,7 +1201,30 @@ form.addEventListener('submit', async (e) => {
     return;
   }
   const cfg = window.SITE_CONFIG || {};
-  if (cfg.contactEndpoint) {
+  if (cfg.web3formsKey) {
+    // Web3Forms: la richiesta arriva per email (destinatario impostato nel pannello Web3Forms)
+    setStatus(t_('cf.sending')); cfBtn.disabled = true;
+    const fdw = new FormData();
+    fdw.append('access_key', cfg.web3formsKey);
+    fdw.append('subject', `Nuova richiesta dal sito MB Consulting — ${data.argomento}`);
+    fdw.append('from_name', 'Sito MB Consulting');
+    fdw.append('Nome', data.nome);
+    fdw.append('email', data.email);
+    fdw.append('Telefono', data.telefono || '-');
+    fdw.append('Argomento', data.argomento);
+    fdw.append('Messaggio', data.messaggio);
+    fdw.append('Lingua', data.lingua.toUpperCase());
+    fdw.append('botcheck', '');
+    try {
+      const r = await fetch('https://api.web3forms.com/submit', { method: 'POST', headers: { 'Accept': 'application/json' }, body: fdw });
+      const j = await r.json().catch(() => ({}));
+      if (!r.ok || j.success === false) throw new Error(j.message || r.status);
+      form.reset(); buildTopics('new');
+      setStatus(t_('cf.ok'), 'ok');
+    } catch (err) {
+      setStatus(t_('cf.fail').replace('{mail}', window.MB_MAIL), 'error');
+    } finally { cfBtn.disabled = false; }
+  } else if (cfg.contactEndpoint) {
     setStatus(t_('cf.sending')); cfBtn.disabled = true;
     try {
       const r = await fetch(cfg.contactEndpoint, { method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }, body: JSON.stringify(data) });
