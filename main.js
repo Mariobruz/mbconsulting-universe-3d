@@ -168,6 +168,14 @@ const fluid = { speed: 0, spin: 0, lastX: 0, lastY: 0, tiltX: 0, tiltZ: 0 };
 const nextWorld = makePlanet(2, false);
 nextWorld.group.position.set(6, 0.5, -128);
 nextWorld.group.scale.setScalar(3.4);
+let nextWorldScale = 3.4;
+/* su schermi verticali (cellulare) il pianeta finale va al centro e un po' più piccolo */
+function placeNextWorld() {
+  const portrait = innerWidth / innerHeight < 0.85;
+  nextWorld.group.position.x = portrait ? 3 : 6;
+  nextWorldScale = portrait ? 2.9 : 3.4;
+}
+placeNextWorld();
 nextWorld.halo.material.uniforms.uColor.value.set(0x7fd0ff);
 scene.add(nextWorld.group);
 
@@ -371,10 +379,11 @@ function openProject(i) {
   document.documentElement.style.overflow = 'hidden';
   document.documentElement.classList.add('modal-open');
   modal.showModal();
+  modal.dataset.shownAt = performance.now();
   modal.scrollTop = 0;
 }
 $('#close').addEventListener('click', () => modal.close());
-modal.addEventListener('click', (e) => { if (e.target === modal) modal.close(); });
+modal.addEventListener('click', (e) => { if (e.target === modal && performance.now() - (+modal.dataset.shownAt || 0) > 450) modal.close(); });
 modal.addEventListener('close', () => { document.documentElement.style.overflow = ''; document.documentElement.classList.remove('modal-open'); lastFocus?.focus?.(); });
 
 /* =========================================================
@@ -516,14 +525,46 @@ function hitNextWorld(clientX, clientY) {
   planetSphere.radius = 1.95 * nextWorld.group.scale.x;
   return raycaster.ray.intersectsSphere(planetSphere);
 }
+function cardAt(clientX, clientY) {
+  if (!renderer || ringPresence <= 0.6) return null;
+  ndc.set((clientX / innerWidth) * 2 - 1, -(clientY / innerHeight) * 2 + 1);
+  raycaster.setFromCamera(ndc, camera);
+  const hits = raycaster.intersectObjects(cards.filter(c => c.userData.visible && c.userData.scale > 0.5), false);
+  const front = hits.find(h => h.face && h.object.userData.cos > -0.1);
+  return front ? front.object : null;
+}
+/* tocco/clic sulla scena 3D: pianeta finale -> modulo, card -> progetto */
+function sceneTap(x, y, target) {
+  if (!target || isUiTarget(target) || modal.open || contactDlg.open) return false;
+  if (hitNextWorld(x, y)) { openContact(); return true; }
+  const c = cardAt(x, y);
+  if (c) { const i = c.userData.index; if (i === focusIndex) openProject(i); else goToProject(i); return true; }
+  return false;
+}
+/* su iPhone/iPad Safari il "click" non arriva se si tocca un elemento non cliccabile:
+   il tocco viene riconosciuto direttamente da touchstart/touchend */
+let tapStart = null, lastTouchTap = 0;
+addEventListener('touchstart', (e) => {
+  const t = e.touches.length === 1 ? e.touches[0] : null;
+  tapStart = t ? { x: t.clientX, y: t.clientY, time: performance.now(), sy: scrollY } : null;
+}, { passive: true });
+addEventListener('touchmove', (e) => {
+  const t = e.touches[0];
+  if (tapStart && t && Math.hypot(t.clientX - tapStart.x, t.clientY - tapStart.y) > 12) tapStart = null;
+}, { passive: true });
+addEventListener('touchend', (e) => {
+  const s = tapStart; tapStart = null;
+  const t = e.changedTouches[0];
+  if (!s || !t || e.touches.length) return;
+  if (Math.hypot(t.clientX - s.x, t.clientY - s.y) > 12 || performance.now() - s.time > 650 || Math.abs(scrollY - s.sy) > 12) return;
+  if (sceneTap(t.clientX, t.clientY, e.target)) {
+    lastTouchTap = performance.now();
+    if (e.cancelable) e.preventDefault();   // niente "click" fantasma che richiuderebbe la finestra
+  }
+}, { passive: false });
 addEventListener('click', (e) => {
-  if (isUiTarget(e.target) || modal.open || contactDlg.open) return;
-  if (hitNextWorld(e.clientX, e.clientY)) openContact();
-});
-addEventListener('click', (e) => {
-  if (!hoverCard || isUiTarget(e.target) || modal.open) return;
-  const i = hoverCard.userData.index;
-  if (i === focusIndex) openProject(i); else goToProject(i);
+  if (performance.now() - lastTouchTap < 800) return;
+  sceneTap(e.clientX, e.clientY, e.target);
 });
 
 const cursor = $('#cursor'), cursorLabel = $('#cursor-label');
@@ -1033,7 +1074,7 @@ function frame() {
   // mondo successivo
   nextWorld.group.rotation.y += dt * 0.05;
   nextWorld.group.visible = t > 6.1;
-  nextWorld.group.scale.setScalar(3.4 * (0.2 + 0.8 * smooth(6.1, 6.8, t)));
+  nextWorld.group.scale.setScalar(nextWorldScale * (0.2 + 0.8 * smooth(6.1, 6.8, t)));
   const ph = pointer.active && !modal.open && !contactDlg.open && hitNextWorld(pointer.x, pointer.y);
   if (ph !== planetHover) {
     planetHover = ph;
@@ -1140,6 +1181,7 @@ const t_ = (key) => window.t(key);
    ========================================================= */
 function onResize() {
   sizeRenderer();
+  placeNextWorld();
   KF = keyframes();
   measure();
 }
@@ -1176,12 +1218,13 @@ function openContact(projectName) {
   document.documentElement.classList.add('modal-open');
   form.dataset.openedAt = performance.now();
   contactDlg.showModal();
+  contactDlg.dataset.shownAt = performance.now();
   contactDlg.scrollTop = 0;
-  setTimeout(() => $('#cf-name').focus({ preventScroll: true }), 350);
+  if (finePointer) setTimeout(() => $('#cf-name').focus({ preventScroll: true }), 350);
 }
 window.openContact = openContact;
 $('#cf-close').addEventListener('click', () => contactDlg.close());
-contactDlg.addEventListener('click', (e) => { if (e.target === contactDlg) contactDlg.close(); });
+contactDlg.addEventListener('click', (e) => { if (e.target === contactDlg && performance.now() - (+contactDlg.dataset.shownAt || 0) > 450) contactDlg.close(); });
 contactDlg.addEventListener('close', () => { document.documentElement.style.overflow = ''; document.documentElement.classList.remove('modal-open'); });
 $('#detail-cta').addEventListener('click', (e) => { e.preventDefault(); const name = e.currentTarget.dataset.project; modal.close(); setTimeout(() => openContact(name), 250); });
 $('#closing-cta').addEventListener('click', (e) => { e.preventDefault(); e.stopImmediatePropagation(); openContact(); });
