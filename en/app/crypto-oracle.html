@@ -23,7 +23,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="../../favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="../../fonts/fonts.css">
-<link rel="stylesheet" href="../../app.css?v=20261108a">
+<link rel="stylesheet" href="../../app.css?v=20261108b">
 <script src="../../protect.js" defer></script>
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"SoftwareApplication","@id":"https://mbconsultingitalia.com/en/app/crypto-oracle#app","name":"Crypto Oracle v2","url":"https://mbconsultingitalia.com/en/app/crypto-oracle","description":"Crypto Oracle monitors the crypto market 24/7 with six AI agents and sends Telegram alerts only when at least two independent sources confirm the signal.","applicationCategory":"FinanceApplication","operatingSystem":"Web","inLanguage":"en","image":"https://mbconsultingitalia.com/assets/p7.webp","keywords":"crypto alerts telegram, crypto signals, cryptocurrency monitoring, telegram crypto bot, on-chain analysis, real-time crypto news, AI trading agents, bitcoin alerts","featureList":["Six AI agents watching the market around the clock","Prices, volumes and derivatives","On-chain blockchain data","International news and social sentiment","Alerts only when at least two independent sources agree","No automatic trading: the system suggests, you decide"],"creator":{"@id":"https://mbconsultingitalia.com/#org"},"publisher":{"@id":"https://mbconsultingitalia.com/#org"}},{"@type":"WebPage","@id":"https://mbconsultingitalia.com/en/app/crypto-oracle","url":"https://mbconsultingitalia.com/en/app/crypto-oracle","name":"Crypto Oracle — Telegram crypto alerts powered by AI agents","description":"Crypto Oracle monitors the crypto market 24/7 with six AI agents and sends Telegram alerts only when at least two independent sources confirm the signal.","inLanguage":"en","mainEntity":{"@id":"https://mbconsultingitalia.com/en/app/crypto-oracle#app"},"isPartOf":{"@id":"https://mbconsultingitalia.com/#website"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://mbconsultingitalia.com/"},{"@type":"ListItem","position":2,"name":"Applications","item":"https://mbconsultingitalia.com/en/app/"},{"@type":"ListItem","position":3,"name":"Crypto Oracle v2","item":"https://mbconsultingitalia.com/en/app/crypto-oracle"}]},{"@type":"Organization","@id":"https://mbconsultingitalia.com/#org","name":"MB Consulting","legalName":"MB CONSULTING DI MARIO BRUZZESE","url":"https://mbconsultingitalia.com/","vatID":"IT03504290796","email":"info@mbconsultingitalia.com","address":{"@type":"PostalAddress","addressLocality":"Reggio Calabria","addressRegion":"RC","addressCountry":"IT"}}]}</script>
 </head>
@@ -34,6 +34,7 @@
     <a href="./">Applications</a>
     <a href="../../app/crypto-oracle" hreflang="it" lang="it">IT</a>
     <a class="pill" href="../../?lang=en&contatto=Crypto+Oracle+v2">Let’s talk <b>↗</b></a>
+    <a class="close-x" href="../../?lang=en" data-close aria-label="Close and return to the site" title="Close and return to the site">✕</a>
   </nav>
 </header>
 <main class="app">
@@ -74,5 +75,24 @@
   <p><a class="brand small" href="../../"><b>mb<span>°</span></b></a> A division of MB Consulting di Mario Bruzzese</p>
   <p>MB Consulting di Mario Bruzzese · Registered office: Reggio Calabria (RC) · VAT no. 03504290796 · <a href="../../privacy.html">Privacy</a> · <a class="js-mail" href="#" data-u="ofni" data-d="moc.ailatignitlusnocbm">info [at] mbconsultingitalia [dot] com</a></p>
 </footer>
+<script>
+/* X: torna esattamente al punto del sito 3D da cui si è arrivati */
+(function () {
+  var x = document.querySelector('[data-close]');
+  function close(e) {
+    try {
+      var r = document.referrer ? new URL(document.referrer) : null;
+      if (r && r.origin === location.origin && (r.pathname === '/' || r.pathname === '/index.html') && history.length > 1) {
+        if (e) e.preventDefault();
+        history.back();
+        return;
+      }
+    } catch (err) {}
+    if (!e) location.href = x.href;
+  }
+  x.addEventListener('click', close);
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
+})();
+</script>
 </body>
 </html>

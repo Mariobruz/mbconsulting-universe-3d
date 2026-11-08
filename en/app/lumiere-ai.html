@@ -23,7 +23,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="../../favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="../../fonts/fonts.css">
-<link rel="stylesheet" href="../../app.css?v=20261108a">
+<link rel="stylesheet" href="../../app.css?v=20261108b">
 <script src="../../protect.js" defer></script>
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"SoftwareApplication","@id":"https://mbconsultingitalia.com/en/app/lumiere-ai#app","name":"Lumiere AI","url":"https://mbconsultingitalia.com/en/app/lumiere-ai","description":"Lumiere AI is an online platform for creating videos, images and audio with artificial intelligence from a written description, right in your browser.","applicationCategory":"MultimediaApplication","operatingSystem":"Web","inLanguage":"en","image":"https://mbconsultingitalia.com/assets/lumiere-logo-v2.webp","keywords":"create videos with AI, AI video generator, AI image generator, AI audio, text to video, AI social media content, generative AI platform, video prompts","featureList":["Videos, images and audio from a simple written description","Multiple AI models in one interface","Chat assistant that helps write prompts and improve results","No editing software or technical skills needed","Runs in the browser, available in four languages","Credit system with flexible subscription plans"],"creator":{"@id":"https://mbconsultingitalia.com/#org"},"publisher":{"@id":"https://mbconsultingitalia.com/#org"}},{"@type":"WebPage","@id":"https://mbconsultingitalia.com/en/app/lumiere-ai","url":"https://mbconsultingitalia.com/en/app/lumiere-ai","name":"Lumiere AI — create videos, images and audio with AI | MB Consulting","description":"Lumiere AI is an online platform for creating videos, images and audio with artificial intelligence from a written description, right in your browser.","inLanguage":"en","mainEntity":{"@id":"https://mbconsultingitalia.com/en/app/lumiere-ai#app"},"isPartOf":{"@id":"https://mbconsultingitalia.com/#website"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://mbconsultingitalia.com/"},{"@type":"ListItem","position":2,"name":"Applications","item":"https://mbconsultingitalia.com/en/app/"},{"@type":"ListItem","position":3,"name":"Lumiere AI","item":"https://mbconsultingitalia.com/en/app/lumiere-ai"}]},{"@type":"Organization","@id":"https://mbconsultingitalia.com/#org","name":"MB Consulting","legalName":"MB CONSULTING DI MARIO BRUZZESE","url":"https://mbconsultingitalia.com/","vatID":"IT03504290796","email":"info@mbconsultingitalia.com","address":{"@type":"PostalAddress","addressLocality":"Reggio Calabria","addressRegion":"RC","addressCountry":"IT"}}]}</script>
 </head>
@@ -34,6 +34,7 @@
     <a href="./">Applications</a>
     <a href="../../app/lumiere-ai" hreflang="it" lang="it">IT</a>
     <a class="pill" href="../../?lang=en&contatto=Lumiere+AI">Let’s talk <b>↗</b></a>
+    <a class="close-x" href="../../?lang=en" data-close aria-label="Close and return to the site" title="Close and return to the site">✕</a>
   </nav>
 </header>
 <main class="app">
@@ -75,5 +76,24 @@
   <p><a class="brand small" href="../../"><b>mb<span>°</span></b></a> A division of MB Consulting di Mario Bruzzese</p>
   <p>MB Consulting di Mario Bruzzese · Registered office: Reggio Calabria (RC) · VAT no. 03504290796 · <a href="../../privacy.html">Privacy</a> · <a class="js-mail" href="#" data-u="ofni" data-d="moc.ailatignitlusnocbm">info [at] mbconsultingitalia [dot] com</a></p>
 </footer>
+<script>
+/* X: torna esattamente al punto del sito 3D da cui si è arrivati */
+(function () {
+  var x = document.querySelector('[data-close]');
+  function close(e) {
+    try {
+      var r = document.referrer ? new URL(document.referrer) : null;
+      if (r && r.origin === location.origin && (r.pathname === '/' || r.pathname === '/index.html') && history.length > 1) {
+        if (e) e.preventDefault();
+        history.back();
+        return;
+      }
+    } catch (err) {}
+    if (!e) location.href = x.href;
+  }
+  x.addEventListener('click', close);
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
+})();
+</script>
 </body>
 </html>
