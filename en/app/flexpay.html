@@ -23,7 +23,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="../../favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="../../fonts/fonts.css">
-<link rel="stylesheet" href="../../app.css?v=20261108b">
+<link rel="stylesheet" href="../../app.css?v=20261108c">
 <script src="../../protect.js" defer></script>
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"SoftwareApplication","@id":"https://mbconsultingitalia.com/en/app/flexpay#app","name":"FlexPay","url":"https://mbconsultingitalia.com/en/app/flexpay","description":"FlexPay is a payment system that integrates into any website or online store with a few lines of code: credit cards, Apple Pay and Google Pay with 3D Secure.","applicationCategory":"FinanceApplication","operatingSystem":"Web","inLanguage":"en","image":"https://mbconsultingitalia.com/assets/p8.webp","keywords":"online payments for websites, secure checkout, e-commerce payment system, accept card payments, Apple Pay website, Google Pay e-commerce, 3D Secure, payment gateway","featureList":["Integrates into any website or online store with a few lines of code","Secure checkout with credit card, Apple Pay and Google Pay","Automatic return to your site after payment","3D Secure banking security handled by the card networks","Funds paid directly into the merchant's account","Nothing to install or manage"],"creator":{"@id":"https://mbconsultingitalia.com/#org"},"publisher":{"@id":"https://mbconsultingitalia.com/#org"}},{"@type":"WebPage","@id":"https://mbconsultingitalia.com/en/app/flexpay","url":"https://mbconsultingitalia.com/en/app/flexpay","name":"FlexPay — online payments for websites and e-commerce","description":"FlexPay is a payment system that integrates into any website or online store with a few lines of code: credit cards, Apple Pay and Google Pay with 3D Secure.","inLanguage":"en","mainEntity":{"@id":"https://mbconsultingitalia.com/en/app/flexpay#app"},"isPartOf":{"@id":"https://mbconsultingitalia.com/#website"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://mbconsultingitalia.com/"},{"@type":"ListItem","position":2,"name":"Applications","item":"https://mbconsultingitalia.com/en/app/"},{"@type":"ListItem","position":3,"name":"FlexPay","item":"https://mbconsultingitalia.com/en/app/flexpay"}]},{"@type":"Organization","@id":"https://mbconsultingitalia.com/#org","name":"MB Consulting","legalName":"MB CONSULTING DI MARIO BRUZZESE","url":"https://mbconsultingitalia.com/","vatID":"IT03504290796","email":"info@mbconsultingitalia.com","address":{"@type":"PostalAddress","addressLocality":"Reggio Calabria","addressRegion":"RC","addressCountry":"IT"}}]}</script>
 </head>
@@ -75,24 +75,6 @@
   <p><a class="brand small" href="../../"><b>mb<span>°</span></b></a> A division of MB Consulting di Mario Bruzzese</p>
   <p>MB Consulting di Mario Bruzzese · Registered office: Reggio Calabria (RC) · VAT no. 03504290796 · <a href="../../privacy.html">Privacy</a> · <a class="js-mail" href="#" data-u="ofni" data-d="moc.ailatignitlusnocbm">info [at] mbconsultingitalia [dot] com</a></p>
 </footer>
-<script>
-/* X: torna esattamente al punto del sito 3D da cui si è arrivati */
-(function () {
-  var x = document.querySelector('[data-close]');
-  function close(e) {
-    try {
-      var r = document.referrer ? new URL(document.referrer) : null;
-      if (r && r.origin === location.origin && (r.pathname === '/' || r.pathname === '/index.html') && history.length > 1) {
-        if (e) e.preventDefault();
-        history.back();
-        return;
-      }
-    } catch (err) {}
-    if (!e) location.href = x.href;
-  }
-  x.addEventListener('click', close);
-  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
-})();
-</script>
+<script src="../../app.js?v=20261108c" defer></script>
 </body>
 </html>
