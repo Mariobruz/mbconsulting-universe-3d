@@ -61,3 +61,11 @@ ul{padding-left:20px}
   main{padding-top:30px}
   .cta{padding:24px 20px 26px}
 }
+/* X per chiudere e tornare al sito 3D */
+.close-x{display:inline-grid;place-items:center;width:42px;height:42px;border-radius:50%;border:1px solid rgba(143,211,255,.55);color:var(--ink)!important;font-size:16px;text-decoration:none;box-shadow:0 0 0 4px rgba(143,211,255,.08);transition:background .3s var(--ease),color .3s var(--ease),transform .3s var(--ease)}
+.close-x:hover{background:var(--ice);color:#04121c!important;transform:rotate(90deg)}
+@media (max-width:640px){
+  .top nav a[href="./"]{display:none}
+  .top nav{gap:10px}
+  .close-x{width:38px;height:38px;font-size:15px}
+}
