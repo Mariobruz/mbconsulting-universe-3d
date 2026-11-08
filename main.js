@@ -950,6 +950,13 @@ try {
   sessionStorage.removeItem(RETURN_KEY);
   if (r && Date.now() - r.t < 2 * 3600e3 && !new URLSearchParams(location.search).get('contatto')) restore = r;
 } catch (e) {}
+/* chi è già entrato nel sito (in questa sessione del browser) non rivede più la schermata col contatore */
+const ENTERED_KEY = 'mb3d-entered';
+if (!restore) {
+  try {
+    if (sessionStorage.getItem(ENTERED_KEY)) restore = { y: null, music: localStorage.getItem('mb3d-music') === 'on', t: Date.now() };
+  } catch (e) {}
+}
 document.addEventListener('click', (e) => {
   if (!e.target.closest('#detail-page, .footer-apps a')) return;
   try { sessionStorage.setItem(RETURN_KEY, JSON.stringify({ y: Math.round(scrollY), music: !music.paused, t: Date.now() })); } catch (err) {}
@@ -972,6 +979,8 @@ $$('[data-enter]').forEach(b => b.addEventListener('click', () => {
   if (entered) return;
   entered = true;
   if (b.dataset.enter === 'sound') { music.play().catch(() => {}); try { localStorage.setItem('mb3d-music', 'on'); } catch (e) {} }
+  else if (!restore) { try { localStorage.setItem('mb3d-music', 'off'); } catch (e) {} }
+  try { sessionStorage.setItem(ENTERED_KEY, '1'); } catch (e) {}
   loader.classList.add('done');
   document.body.classList.remove('is-loading');
   document.body.classList.add('entered');
@@ -987,14 +996,14 @@ $$('[data-enter]').forEach(b => b.addEventListener('click', () => {
     introStart -= 2800;
     document.body.classList.add('revealed');
     const y = restore.y;
-    requestAnimationFrame(() => requestAnimationFrame(() => {
+    if (y != null) requestAnimationFrame(() => requestAnimationFrame(() => {
       programmaticScroll = performance.now();
       auto.armed = y < anchorsY[5];
       window.scrollTo({ top: y, behavior: 'instant' });
       auto.lastY = y;
     }));
   }
-  if (wantContact) setTimeout(() => openContact(wantContact === '1' ? undefined : wantContact), 1500);
+  if (wantContact) setTimeout(() => openContact(wantContact === '1' ? undefined : wantContact), restore ? 300 : 1500);
 }));
 /* arrivo da una pagina applicazione: ?contatto=Nome apre il modulo con il progetto già scelto */
 const wantContact = (() => { try { return new URLSearchParams(location.search).get('contatto'); } catch (e) { return null; } })();
