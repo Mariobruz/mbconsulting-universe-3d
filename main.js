@@ -942,14 +942,27 @@ const loader = $('#loader');
 let loadTarget = 0, loadShown = 0, loadDone = false, entered = false, introStart = 0;
 manager.onProgress = (url, loaded, total) => { loadTarget = total ? loaded / total : 1; };
 manager.onLoad = () => { loadTarget = 1; loadDone = true; };
+/* ritorno dalla scheda completa di un'app: si riparte dallo stesso punto, senza schermata iniziale */
+const RETURN_KEY = 'mb3d-return';
+let restore = null;
+try {
+  const r = JSON.parse(sessionStorage.getItem(RETURN_KEY) || 'null');
+  sessionStorage.removeItem(RETURN_KEY);
+  if (r && Date.now() - r.t < 2 * 3600e3 && !new URLSearchParams(location.search).get('contatto')) restore = r;
+} catch (e) {}
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('#detail-page, .footer-apps a')) return;
+  try { sessionStorage.setItem(RETURN_KEY, JSON.stringify({ y: Math.round(scrollY), music: !music.paused, t: Date.now() })); } catch (err) {}
+}, true);
 setTimeout(() => { loadTarget = 1; loadDone = true; }, 9000);
 
 function tickLoader(dt) {
   if (entered) return;
   const now = performance.now(); const realDt = Math.min(0.25, (now - (tickLoader.last || now)) / 1000); tickLoader.last = now;
-  loadShown = Math.min(loadTarget, loadShown + realDt * 1.4);
+  loadShown = Math.min(loadTarget, loadShown + realDt * (restore ? 6 : 1.4));
   $('#loader-pct').textContent = String(Math.round(loadShown * 100)).padStart(3, '0');
   $('#loader-bar').style.transform = `scaleX(${loadShown})`;
+  if (restore && loadDone && loadShown >= 1) { $(restore.music ? '[data-enter="sound"]' : '[data-enter="silent"]').click(); return; }
   if (loadDone && loadShown >= 1 && $('#loader-enter').hidden) {
     $('#loader-enter').hidden = false;
     $('.loader-enter .enter-btn').focus({ preventScroll: true });
@@ -965,6 +978,17 @@ $$('[data-enter]').forEach(b => b.addEventListener('click', () => {
   introStart = performance.now();
   setTimeout(() => document.body.classList.add('revealed'), 2800);
   setTimeout(() => loader.remove(), 1300);
+  if (restore) {                      // niente intro: si torna subito al punto lasciato
+    introStart -= 2800;
+    document.body.classList.add('revealed');
+    const y = restore.y;
+    requestAnimationFrame(() => requestAnimationFrame(() => {
+      programmaticScroll = performance.now();
+      auto.armed = y < anchorsY[5];
+      window.scrollTo({ top: y, behavior: 'instant' });
+      auto.lastY = y;
+    }));
+  }
   if (wantContact) setTimeout(() => openContact(wantContact === '1' ? undefined : wantContact), 1500);
 }));
 /* arrivo da una pagina applicazione: ?contatto=Nome apre il modulo con il progetto già scelto */
