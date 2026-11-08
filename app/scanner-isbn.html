@@ -23,7 +23,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="../fonts/fonts.css">
-<link rel="stylesheet" href="../app.css?v=20261108b">
+<link rel="stylesheet" href="../app.css?v=20261108c">
 <script src="../protect.js" defer></script>
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"SoftwareApplication","@id":"https://mbconsultingitalia.com/app/scanner-isbn#app","name":"Scanner ISBN","url":"https://mbconsultingitalia.com/app/scanner-isbn","description":"Scanner ISBN trasforma la tua collezione in una biblioteca digitale: scansiona il codice ISBN o la copertina e l'AI recupera titolo, autore ed editore.","applicationCategory":"LifestyleApplication","operatingSystem":"Web","inLanguage":"it","image":"https://mbconsultingitalia.com/assets/p12.webp","keywords":"catalogare libri, app biblioteca personale, scanner codice ISBN, catalogo libri Excel, gestione prestiti libri, valore libri usati, biblioteca digitale, inventario libreria","featureList":["Scansione del codice ISBN o foto della copertina","Riconoscimento AI di titolo, autore, editore e dati bibliografici","Scaffali personalizzati, letture e prestiti","Statistiche e stima del valore dei libri usati","Esportazione in Excel o in un catalogo PDF","Da smartphone, tablet e computer"],"creator":{"@id":"https://mbconsultingitalia.com/#org"},"publisher":{"@id":"https://mbconsultingitalia.com/#org"}},{"@type":"WebPage","@id":"https://mbconsultingitalia.com/app/scanner-isbn","url":"https://mbconsultingitalia.com/app/scanner-isbn","name":"Scanner ISBN — app per catalogare libri con l'AI | MB Consulting","description":"Scanner ISBN trasforma la tua collezione in una biblioteca digitale: scansiona il codice ISBN o la copertina e l'AI recupera titolo, autore ed editore.","inLanguage":"it","mainEntity":{"@id":"https://mbconsultingitalia.com/app/scanner-isbn#app"},"isPartOf":{"@id":"https://mbconsultingitalia.com/#website"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://mbconsultingitalia.com/"},{"@type":"ListItem","position":2,"name":"Applicazioni","item":"https://mbconsultingitalia.com/app/"},{"@type":"ListItem","position":3,"name":"Scanner ISBN","item":"https://mbconsultingitalia.com/app/scanner-isbn"}]},{"@type":"Organization","@id":"https://mbconsultingitalia.com/#org","name":"MB Consulting","legalName":"MB CONSULTING DI MARIO BRUZZESE","url":"https://mbconsultingitalia.com/","vatID":"IT03504290796","email":"info@mbconsultingitalia.com","address":{"@type":"PostalAddress","addressLocality":"Reggio Calabria","addressRegion":"RC","addressCountry":"IT"}}]}</script>
 </head>
@@ -76,24 +76,6 @@
   <p><a class="brand small" href="../"><b>mb<span>°</span></b></a> Una divisione della MB Consulting di Mario Bruzzese</p>
   <p>MB Consulting di Mario Bruzzese · Sede legale: Reggio Calabria (RC) · P.IVA 03504290796 · <a href="../privacy.html">Privacy</a> · <a class="js-mail" href="#" data-u="ofni" data-d="moc.ailatignitlusnocbm">info [at] mbconsultingitalia [dot] com</a></p>
 </footer>
-<script>
-/* X: torna esattamente al punto del sito 3D da cui si è arrivati */
-(function () {
-  var x = document.querySelector('[data-close]');
-  function close(e) {
-    try {
-      var r = document.referrer ? new URL(document.referrer) : null;
-      if (r && r.origin === location.origin && (r.pathname === '/' || r.pathname === '/index.html') && history.length > 1) {
-        if (e) e.preventDefault();
-        history.back();
-        return;
-      }
-    } catch (err) {}
-    if (!e) location.href = x.href;
-  }
-  x.addEventListener('click', close);
-  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
-})();
-</script>
+<script src="../app.js?v=20261108c" defer></script>
 </body>
 </html>
