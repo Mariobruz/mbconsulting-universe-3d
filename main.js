@@ -979,6 +979,11 @@ $$('[data-enter]').forEach(b => b.addEventListener('click', () => {
   setTimeout(() => document.body.classList.add('revealed'), 2800);
   setTimeout(() => loader.remove(), 1300);
   if (restore) {                      // niente intro: si torna subito al punto lasciato
+    if (restore.music) {               // se il browser blocca la musica, riparte al primo tocco
+      const ev = ['pointerdown', 'keydown', 'touchend'];
+      const resume = () => { ev.forEach(t => removeEventListener(t, resume, true)); if (music.paused) music.play().catch(() => {}); };
+      ev.forEach(t => addEventListener(t, resume, true));
+    }
     introStart -= 2800;
     document.body.classList.add('revealed');
     const y = restore.y;
@@ -1001,6 +1006,56 @@ function updateAppLinks() {
 }
 document.addEventListener('langchange', updateAppLinks);
 updateAppLinks();
+
+/* scheda completa dentro il sito: si apre sopra il 3D, la musica continua,
+   la X (o Indietro) chiude e si resta esattamente dove si era */
+let appFrame = null;
+function openAppFrame(href) {
+  if (!appFrame) {
+    appFrame = document.createElement('div');
+    appFrame.id = 'app-frame';
+    const fr = document.createElement('iframe');
+    fr.title = 'Scheda applicazione';
+    fr.src = href;                       // impostato prima di entrare nella pagina: nessuna voce in cronologia
+    appFrame.append(fr);
+    document.body.append(appFrame);
+  } else {
+    try { appFrame.querySelector('iframe').contentWindow.location.replace(href); }   // replace: niente cronologia
+    catch (e) { appFrame.querySelector('iframe').src = href; }
+  }
+  const f = appFrame.querySelector('iframe');
+  if (modal.open) modal.close();
+  appFrameOpen = true;
+  document.documentElement.style.overflow = 'hidden';
+  appFrame.classList.remove('out'); void appFrame.offsetWidth; appFrame.classList.add('in');
+  try { history.pushState({ appFrame: 1 }, ''); } catch (e) {}
+  setTimeout(() => { try { f.focus(); } catch (e) {} }, 300);
+}
+function closeAppFrame(opts) {
+  if (!appFrameOpen) return;
+  const fromPop = opts === true;
+  const contact = opts && opts.contact;
+  appFrameOpen = false;
+  document.documentElement.style.overflow = '';
+  appFrame.classList.remove('in'); appFrame.classList.add('out');
+  setTimeout(() => {
+    if (appFrameOpen) return;
+    try { appFrame.querySelector('iframe').contentWindow.location.replace('about:blank'); } catch (e) {}
+  }, 450);
+  if (!fromPop && history.state && history.state.appFrame) { try { history.back(); } catch (e) {} }
+  if (contact) setTimeout(() => openContact(contact === '1' ? undefined : contact), 420);
+}
+window.openAppFrame = openAppFrame;
+window.closeAppFrame = closeAppFrame;
+addEventListener('popstate', () => { if (appFrameOpen) closeAppFrame(true); });
+addEventListener('keydown', (e) => { if (e.key === 'Escape' && appFrameOpen) closeAppFrame(); });
+document.addEventListener('click', (e) => {
+  const a = e.target.closest('#detail-page, .footer-apps a');
+  if (!a || e.ctrlKey || e.metaKey || e.shiftKey || e.button > 0) return;
+  e.preventDefault();
+  try { sessionStorage.removeItem(RETURN_KEY); } catch (err) {}   // il riquadro non ricarica il sito: niente ripristino
+  openAppFrame(a.href);
+});
 
 /* =========================================================
    CARICAMENTO DATI
@@ -1036,8 +1091,10 @@ function watchPerformance(rawDt) {
     document.documentElement.classList.add('lite');
   } else if (fps < 30) document.documentElement.classList.add('lite');
 }
+let appFrameOpen = false;          // scheda completa aperta sopra il 3D: niente rendering inutile
 function frame() {
   requestAnimationFrame(frame);
+  if (appFrameOpen) { clock.getDelta(); return; }
   const rawDt = clock.getDelta();
   watchPerformance(rawDt);
   const dt = Math.min(rawDt, 0.05);
