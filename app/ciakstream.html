@@ -23,7 +23,7 @@
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="../favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="../fonts/fonts.css">
-<link rel="stylesheet" href="../app.css?v=20261108a">
+<link rel="stylesheet" href="../app.css?v=20261108b">
 <script src="../protect.js" defer></script>
 <script type="application/ld+json">{"@context":"https://schema.org","@graph":[{"@type":"SoftwareApplication","@id":"https://mbconsultingitalia.com/app/ciakstream#app","name":"Ciakstream","url":"https://mbconsultingitalia.com/app/ciakstream","description":"Ciakstream è la piattaforma di streaming per il cinema indipendente italiano e internazionale: film, documentari, cortometraggi, opere prime e film verticali.","applicationCategory":"EntertainmentApplication","operatingSystem":"Web","inLanguage":"it","image":"https://mbconsultingitalia.com/assets/p6.webp","keywords":"streaming cinema indipendente, film indipendenti online, cortometraggi online, documentari indipendenti, opere prime, film verticali, festival di cortometraggi, caricare il proprio film","featureList":["Catalogo di film, documentari e cortometraggi navigabile per categoria","Player che riprende la visione da dove ti eri fermato","Recensioni, community con post e commenti, forum e blog","Festival online con votazioni del pubblico","Area autori: caricamento gratuito delle opere e statistiche di visione","Sale private su invito per mostrare i lavori a un pubblico scelto"],"creator":{"@id":"https://mbconsultingitalia.com/#org"},"publisher":{"@id":"https://mbconsultingitalia.com/#org"}},{"@type":"WebPage","@id":"https://mbconsultingitalia.com/app/ciakstream","url":"https://mbconsultingitalia.com/app/ciakstream","name":"Ciakstream — piattaforma streaming di cinema indipendente","description":"Ciakstream è la piattaforma di streaming per il cinema indipendente italiano e internazionale: film, documentari, cortometraggi, opere prime e film verticali.","inLanguage":"it","mainEntity":{"@id":"https://mbconsultingitalia.com/app/ciakstream#app"},"isPartOf":{"@id":"https://mbconsultingitalia.com/#website"}},{"@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://mbconsultingitalia.com/"},{"@type":"ListItem","position":2,"name":"Applicazioni","item":"https://mbconsultingitalia.com/app/"},{"@type":"ListItem","position":3,"name":"Ciakstream","item":"https://mbconsultingitalia.com/app/ciakstream"}]},{"@type":"Organization","@id":"https://mbconsultingitalia.com/#org","name":"MB Consulting","legalName":"MB CONSULTING DI MARIO BRUZZESE","url":"https://mbconsultingitalia.com/","vatID":"IT03504290796","email":"info@mbconsultingitalia.com","address":{"@type":"PostalAddress","addressLocality":"Reggio Calabria","addressRegion":"RC","addressCountry":"IT"}}]}</script>
 </head>
@@ -34,6 +34,7 @@
     <a href="./">Applicazioni</a>
     <a href="../en/app/ciakstream" hreflang="en" lang="en">EN</a>
     <a class="pill" href="../?contatto=Ciakstream">Parliamone <b>↗</b></a>
+    <a class="close-x" href="../" data-close aria-label="Chiudi e torna al sito" title="Chiudi e torna al sito">✕</a>
   </nav>
 </header>
 <main class="app">
@@ -74,5 +75,24 @@
   <p><a class="brand small" href="../"><b>mb<span>°</span></b></a> Una divisione della MB Consulting di Mario Bruzzese</p>
   <p>MB Consulting di Mario Bruzzese · Sede legale: Reggio Calabria (RC) · P.IVA 03504290796 · <a href="../privacy.html">Privacy</a> · <a class="js-mail" href="#" data-u="ofni" data-d="moc.ailatignitlusnocbm">info [at] mbconsultingitalia [dot] com</a></p>
 </footer>
+<script>
+/* X: torna esattamente al punto del sito 3D da cui si è arrivati */
+(function () {
+  var x = document.querySelector('[data-close]');
+  function close(e) {
+    try {
+      var r = document.referrer ? new URL(document.referrer) : null;
+      if (r && r.origin === location.origin && (r.pathname === '/' || r.pathname === '/index.html') && history.length > 1) {
+        if (e) e.preventDefault();
+        history.back();
+        return;
+      }
+    } catch (err) {}
+    if (!e) location.href = x.href;
+  }
+  x.addEventListener('click', close);
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
+})();
+</script>
 </body>
 </html>
