@@ -375,6 +375,7 @@ function openProject(i) {
   const cta = $('#detail-cta');
   cta.href = '#contatti';
   cta.dataset.project = p.name;
+  const pg = $('#detail-page'); if (pg && window.APP_SLUGS[p.name]) pg.href = (getLang() === 'en' ? 'en/app/' : 'app/') + window.APP_SLUGS[p.name];
   cta.querySelector('span').textContent = t('js.talk');
   document.documentElement.style.overflow = 'hidden';
   document.documentElement.classList.add('modal-open');
@@ -964,7 +965,18 @@ $$('[data-enter]').forEach(b => b.addEventListener('click', () => {
   introStart = performance.now();
   setTimeout(() => document.body.classList.add('revealed'), 2800);
   setTimeout(() => loader.remove(), 1300);
+  if (wantContact) setTimeout(() => openContact(wantContact === '1' ? undefined : wantContact), 1500);
 }));
+/* arrivo da una pagina applicazione: ?contatto=Nome apre il modulo con il progetto già scelto */
+const wantContact = (() => { try { return new URLSearchParams(location.search).get('contatto'); } catch (e) { return null; } })();
+/* pagine applicazione: indirizzi e link nel piè di pagina secondo la lingua */
+window.APP_SLUGS = {"Ciakstream": "ciakstream", "Crypto Oracle v2": "crypto-oracle", "Equilibrium": "equilibrium", "FlexPay": "flexpay", "Kinea": "kinea", "LawKey": "lawkey", "Lumiere AI": "lumiere-ai", "Mappix": "mappix", "Pollicino": "pollicino", "Rentora": "rentora", "Scanner ISBN": "scanner-isbn", "SchermiAI": "schermiai", "Simona": "simona", "Spesa Smart": "spesa-smart", "The Mask": "the-mask"};
+function updateAppLinks() {
+  const pre = getLang() === 'en' ? 'en/app/' : 'app/';
+  $$('[data-app]').forEach(a => { a.href = pre + a.dataset.app; });
+}
+document.addEventListener('langchange', updateAppLinks);
+updateAppLinks();
 
 /* =========================================================
    CARICAMENTO DATI

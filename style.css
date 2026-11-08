@@ -399,3 +399,13 @@ img{-webkit-user-drag:none;user-select:none}
 #detail.slide-r .detail-media,#detail.slide-r .detail-body{animation:slideR .45s var(--ease)}
 @keyframes slideL{from{opacity:0;transform:translateX(40px)}to{opacity:1;transform:none}}
 @keyframes slideR{from{opacity:0;transform:translateX(-40px)}to{opacity:1;transform:none}}
+
+/* ---------- link alle pagine applicazione ---------- */
+.footer-apps{flex-basis:100%;display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 14px;margin-top:4px;font-size:11px}
+.footer-apps>span{color:var(--dim);letter-spacing:1.6px;text-transform:uppercase;font-size:9px;margin-right:6px}
+.footer-apps ul{list-style:none;margin:0;padding:0;display:contents}
+.footer-apps a{color:var(--mute);text-decoration:none}
+.footer-apps a:hover{color:var(--ice)}
+.footer-apps .footer-apps-all{color:var(--ice-2)}
+.detail-page{display:inline-block;margin:18px 0 0 18px;font-size:13px;color:var(--ice-2);text-decoration:none;border-bottom:1px solid rgba(143,211,255,.35)}
+.detail-page:hover{color:var(--ice)}

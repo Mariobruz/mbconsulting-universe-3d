@@ -103,8 +103,11 @@ window.I18N = {
   'js.list': { it: 'Elenco progetti', en: 'Project list' },
   'js.prev': { it: 'Progetto precedente', en: 'Previous project' },
   'js.next': { it: 'Progetto successivo', en: 'Next project' },
-  'js.title': { it: 'MB Consulting — Un universo di possibilità', en: 'MB Consulting — A universe of possibilities' },
-  'js.desc': { it: 'MB Consulting. Idee che diventano applicazioni, piattaforme e nuove possibilità. Esplora il nostro universo digitale in 3D.', en: 'MB Consulting. Ideas become apps, platforms and new possibilities. Explore our digital universe in 3D.' }
+  'js.title': { it: "MB Consulting — Sviluppo app, gestionali e soluzioni AI su misura", en: "MB Consulting — Custom apps, management software and AI solutions" },
+  'js.desc': { it: "MB Consulting sviluppa app, gestionali web e soluzioni di intelligenza artificiale su misura: palestre, autonoleggio, biglietteria, pagamenti e assistenti vocali.", en: "MB Consulting builds custom apps, web management software and AI solutions: gyms, car rental, ticketing, online payments and AI voice assistants." },
+  'foot.apps': { it: 'Le nostre applicazioni', en: 'Our applications' },
+  'foot.all': { it: 'Tutte le app →', en: 'All apps →' },
+  'js.page': { it: 'Scheda completa', en: 'Full page' }
 };
 
 window.CATEGORY_EN = { 'AI & Automazione': 'AI & Automation', 'Business': 'Business', 'Esperienze': 'Experiences', 'Vita quotidiana': 'Everyday life' };
@@ -112,6 +115,7 @@ window.CATEGORY_EN = { 'AI & Automazione': 'AI & Automation', 'Business': 'Busin
 (function () {
   let lang = 'it';
   try { lang = localStorage.getItem('mb3d-language') === 'en' ? 'en' : 'it'; } catch (e) {}
+  try { const q = new URLSearchParams(location.search).get('lang'); if (q === 'en' || q === 'it') { lang = q; localStorage.setItem('mb3d-language', q); } } catch (e) {}
   window.getLang = () => lang;
   window.t = (key) => (window.I18N[key] ? window.I18N[key][lang] : key);
   window.catLabel = (c) => (lang === 'en' ? (window.CATEGORY_EN[c] || c) : c);
