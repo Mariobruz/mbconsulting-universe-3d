@@ -192,7 +192,7 @@ h2 em,h1 em{font-size:1.1em}
 .video-frame iframe{width:100%;height:100%;border:0;display:block}
 .video-frame video{width:100%;height:100%;object-fit:contain;background:#000;display:block}
 .video-poster{position:absolute;inset:0;border:0;padding:0;background:#02060a}
-.video-poster img{width:100%;height:100%;object-fit:cover;opacity:.9;transform:translate(calc(var(--mx) * -14px),calc(var(--my) * -10px)) scale(1.1);transition:opacity .5s}
+.video-poster img{width:100%;height:100%;object-fit:cover;opacity:.9;transform-origin:50% 0;transform:translateX(calc(var(--mx) * -12px)) scale(1.06);transition:opacity .5s}
 .video-poster:hover img{opacity:1}
 .video-poster .play{transform:translate(calc(var(--mx) * 16px),calc(var(--my) * 12px))}
 .play{position:absolute;inset:0;display:grid;place-items:center}
