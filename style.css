@@ -241,7 +241,7 @@ h2 em,h1 em{font-size:1.1em}
 .badge-zoom figcaption{font-size:14px;color:var(--ice-2);letter-spacing:.3px;text-align:center;max-width:80vw}
 .badge-zoom-close{position:absolute;top:24px;right:24px;width:46px;height:46px;border-radius:50%;border:1px solid rgba(201,236,255,.4);background:rgba(5,10,16,.7);transition:all .3s}
 .badge-zoom-close:hover{background:var(--ice);color:#04121c;transform:rotate(90deg)}
-.cred-orbit li:first-child img{background:#fff;padding:6%}
+.cred-orbit li.hex img{background:#fff;padding:6%}
 .cred-orbit li:hover img{transform:scale(1.12)}
 
 /* ---------- 05 closing ---------- */
